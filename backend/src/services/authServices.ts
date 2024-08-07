@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/users';
@@ -48,12 +47,6 @@ export const login = async(data: any) => {
     const user = await User.findOne({ email });
   
     if (user && (await bcrypt.compare(password, user.password))) {
-    //   res.json({
-    //     _id: (user._id as any).toString(),
-    //     username: user.username,
-    //     email: user.email,
-    //     token: generateToken((user._id as any).toString()),
-    //   });
         return {
             _id: (user._id as any).toString(),
             username: user.username,
