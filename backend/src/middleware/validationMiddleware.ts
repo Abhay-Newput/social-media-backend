@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { ObjectSchema } from 'joi';
+import * as Joi from 'joi';
 import ApiError from '../util/apiError';
+import { pick } from '../util/pick';
 
 interface ValidationSchema {
   params?: ObjectSchema<any>;
@@ -9,40 +11,17 @@ interface ValidationSchema {
 }
 
 
-const validateRequest = (schema: ValidationSchema) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    if (schema.params) {
-      const { error } = schema.params.validate(req.params);
-      if (error) {
-        throw new ApiError(error.details[0].message, 400);
-      }
-    }
-    if (schema.query) {
-      const { error } = schema.query.validate(req.query);
-      if (error) {
-        throw new ApiError(error.details[0].message, 400);
-      }
-    }
-    if (schema.body) {
-      const { error } = schema.body.validate(req.body);
-      if (error) {
-        throw new ApiError(error.details[0].message, 400);
-      }
-    }
-    next();
-  };
+export const validateRequest = (schema : ValidationSchema) => (req: Request, res: Response, next: NextFunction) => {
+  const validSchema = pick(schema, ['params', 'query', 'body']);
+  const object = pick(req, Object.keys(validSchema));
+  const { value, error } = Joi.compile(validSchema)
+      .prefs({ errors: { label: 'key' }, abortEarly: false })
+      .validate(object);
+
+  if (error) {
+    return next(new ApiError(error.message || 'Some Keys are missing', 400));
+  }
+  Object.assign(req, value);
+  return next();
 };
-
-  // return (req: Request, res: Response, next: NextFunction) => {
-  //   const { error } = schema.validate(req.body, { abortEarly: false });
-
-  //   if (error) {
-  //     // return res.status(400).json({ message: 'Validation error', errors: error.details });
-  //     throw new ApiError(error.message, 400);
-  //   }
-
-  //   next();
-  // };
-// };
-
 export default validateRequest;
