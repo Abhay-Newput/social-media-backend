@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-const ErrorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
@@ -18,4 +18,4 @@ const ErrorHandler = (err: any, req: Request, res: Response, next: NextFunction)
   });
 };
 
-export default ErrorHandler;
+export default errorHandler;

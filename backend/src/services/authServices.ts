@@ -37,7 +37,7 @@ export const registerUser = async (data: any) => {
       };
     } catch (error) {
       console.error('Error in registerUser:', error.message);
-      throw new ApiError('Failed to create user', 400);
+      throw new ApiError('Internal Server Error', 500);
     }
 };
 

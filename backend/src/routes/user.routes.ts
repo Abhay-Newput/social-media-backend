@@ -1,6 +1,6 @@
 import express from 'express';
 import { protect } from '../middleware/authMiddleware';
-import { updateUserProfileAPI, addFriendAPI, removeFriendAPI } from '../controllers';
+import { updateUserProfile, addFriend, removeFriend } from '../controllers';
 
 import multer from 'multer';
 import catchAsync from '../util/catchAsync';
@@ -13,9 +13,9 @@ router.get("/", (req, res) => {
     res.send("User page");
 });
 
-router.put('/profile', protect, upload.single('profilePicture'), catchAsync(updateUserProfileAPI));
+router.put('/profile', protect, upload.single('profilePicture'), catchAsync(updateUserProfile));
 
-router.post('/friend', protect, catchAsync(addFriendAPI));
-router.delete('/friend', protect, catchAsync(removeFriendAPI));
+router.post('/friend', protect, catchAsync(addFriend));
+router.delete('/friend', protect, catchAsync(removeFriend));
 
 export default router;

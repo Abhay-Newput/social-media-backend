@@ -1,18 +1,18 @@
 import { Request, Response } from 'express';
-import { updateUserProfile, addFriend, removeFriend } from '../services/userServices';
+import * as userServices from '../services/userServices';
 import ApiError from '../util/apiError';
 
 interface AuthRequest extends Request {
   user?: any;
 }
 
-export const updateUserProfileAPI = async (req: AuthRequest, res: Response) => {
+export const updateUserProfile = async (req: AuthRequest, res: Response) => {
   
-    const user = await updateUserProfile(req.user, req.body);
+    const user = await userServices.updateUserProfile(req.user, req.body);
     res.status(201).json(user);
 };
 
-export const addFriendAPI = async (req: AuthRequest, res: Response) => {
+export const addFriend = async (req: AuthRequest, res: Response) => {
 
     const userId = req.user._id;
 
@@ -21,11 +21,11 @@ export const addFriendAPI = async (req: AuthRequest, res: Response) => {
     if (!userId || !friendId) {
         throw new ApiError('Friend ID is required', 400);
     }
-    const result = await addFriend(userId, friendId);
+    const result = await userServices.addFriend(userId, friendId);
     res.status(201).json(result);
 };
 
-export const removeFriendAPI = async (req: AuthRequest, res: Response) => {
+export const removeFriend = async (req: AuthRequest, res: Response) => {
 
     const userId = req.user._id;
 
@@ -34,6 +34,6 @@ export const removeFriendAPI = async (req: AuthRequest, res: Response) => {
     if (!userId || !friendId) {
         throw new ApiError('Friend ID is required', 400);
     }
-    const result = await removeFriend(userId, friendId);
+    const result = await userServices.removeFriend(userId, friendId);
     res.status(201).json(result);
 };

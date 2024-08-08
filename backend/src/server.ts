@@ -5,8 +5,6 @@ import ErrorHandler from './middleware/errorHandler';
 
 const PORT = process.env.PORT || 3000;
 
-app.use(ErrorHandler)
-
 const startServer = async () => {
     try {
 

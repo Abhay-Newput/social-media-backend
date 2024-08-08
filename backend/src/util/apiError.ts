@@ -4,11 +4,11 @@ class ApiError extends Error {
      status;
      isOperational;
     
-    constructor(CustomMessage: string, statusCode: number) {
-      super(CustomMessage);
+    constructor(customMessage: string, statusCode: number) {
+      super(customMessage);
   
       // Set the class properties
-      this.message = CustomMessage;
+      this.message = customMessage;
       this.statusCode = statusCode;
       this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
       this.isOperational = true;
