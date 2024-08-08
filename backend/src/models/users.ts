@@ -1,3 +1,4 @@
+import { number } from 'joi';
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IUser extends Document {
@@ -6,6 +7,8 @@ export interface IUser extends Document {
   password: string;
   profilePicture?: string;
   friends: mongoose.Types.ObjectId[];
+  passwordResetToken: string;
+  passwordResetExpires: Date | number;
 }
 
 const userSchema: Schema = new Schema({
@@ -14,6 +17,8 @@ const userSchema: Schema = new Schema({
   password: { type: String, required: true },
   profilePicture: { type: String },
   friends: [{ type: mongoose.Types.ObjectId, ref: 'User' }],
+  passwordResetToken: { type: String },
+  passwordResetExpires: { type: Date },
 });
 
 export default mongoose.model<IUser>('User', userSchema);
