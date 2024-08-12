@@ -1,7 +1,9 @@
 import 'dotenv/config';
+import dotenv from 'dotenv';
 import app from './index';
 import connectDB from './util/configDB';
-import ErrorHandler from './middleware/errorHandler';
+
+dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 

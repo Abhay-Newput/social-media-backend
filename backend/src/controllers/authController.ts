@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import * as authService from '../services/authServices';
-import ApiError from '../util/apiError';
 
 export const registerUser = async (req: Request, res: Response) => {
   const user = await authService.registerUser(req.body);

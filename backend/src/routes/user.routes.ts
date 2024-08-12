@@ -11,9 +11,6 @@ const upload = multer({ dest: 'uploads/' });
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.send("User page");
-});
 
 router.put('/profile', protect, validateRequest(userUpdateSchema), upload.single('profilePicture'), catchAsync(updateUserProfile));
 

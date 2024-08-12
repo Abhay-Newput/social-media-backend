@@ -9,11 +9,8 @@ const upload = multer({ dest: 'uploads/' });
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.send("Post page");
-});
 router.post('/', protect, upload.single('image'), catchAsync(createPost));
-router.delete('/', protect, upload.single('image'), catchAsync(deletePost));
+router.delete('/', protect, catchAsync(deletePost));
 
 router.post('/like', protect, catchAsync(likePost));
 router.post('/dislike', protect, catchAsync(dislikePost));

@@ -3,7 +3,7 @@ import User from '../models/users';
 import ApiError from '../util/apiError';
 
 
-export const updateUserProfile = async (data: any, req: any) => {
+export const updateUserProfile = async (data: any, body: any) => {
   try {
     if (!data) {
       throw new ApiError('User not authenticated', 401);
@@ -15,16 +15,16 @@ export const updateUserProfile = async (data: any, req: any) => {
       throw new ApiError('User not found', 404);
     }
 
-    user.username = req.username || user.username;
-    user.email = req.email || user.email;
+    user.username = body.username || user.username;
+    user.email = body.email || user.email;
 
-    if (req.password) {
+    if (body.password) {
       const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(req.password, salt);
+      user.password = await bcrypt.hash(body.password, salt);
     }
 
-    if (req.file) {
-      user.profilePicture = req.file.path;
+    if (body.file) {
+      user.profilePicture = body.file.path;
     }
 
     const updatedUser = await user.save();
