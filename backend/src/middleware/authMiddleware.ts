@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/users';
+import ApiError from '../util/apiError';
+import { IUser } from '../models/users';
 
 
 interface AuthRequest extends Request {
-  user?: any;
+  user?: IUser;
 }
 
 const protect = async (req: AuthRequest, res: Response, next: NextFunction) => {
@@ -16,11 +18,11 @@ const protect = async (req: AuthRequest, res: Response, next: NextFunction) => {
       req.user = await User.findById(decoded.id).select('-password');
       next();
     } catch (error) {
-      res.status(401).json({ message: 'Not authorized, token failed' });
+      return next(new ApiError('Not authorized, token failed', 401));
     }
   }
   if (!token) {
-    res.status(401).json({ message: 'Not authorized, no token' });
+    return next(new ApiError('Not authorized, no token', 401));
   }
 };
 
