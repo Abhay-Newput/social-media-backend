@@ -7,4 +7,3 @@ export const pick = (object: { [key: string]: any }, keys: string[]): { [key: st
     return obj;
   }, {} as { [key: string]: any });
 };
-  

@@ -7,7 +7,7 @@ import catchAsync from '../util/catchAsync';
 
 const router = express.Router();
 
-router.get("/", (req, res) => { 
+router.get("/", (req, res) => {
     res.send("Auth page");
 });
 

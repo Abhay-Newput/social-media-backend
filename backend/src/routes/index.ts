@@ -19,8 +19,7 @@ const defaultRoutes: Route[] = [
 
 
 defaultRoutes.forEach((route) => {
-    router.use(route.path, route.route);
+  router.use(route.path, route.route);
 });
-  
+
 export default router;
-  
